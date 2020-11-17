@@ -1,0 +1,388 @@
+</html>
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!-- Page Header -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Minimum Edit Distance Project</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+		integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+		integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+		crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+		integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+		crossorigin="anonymous" />
+	<link rel="stylesheet" href="style.css">
+	<script src="script.js"></script>
+</head>
+
+<body onload="load()">
+	<!-- Navigation  -->
+	<nav class="navbar navbar-dark bg-primary navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a style="padding-top: 10px; color:white;" class="navbar-brand">&nbsp;&nbsp;Minimum Edit Distance
+					Project</a>
+			</div>
+			<div id="navbar" class="nav nav-pills">
+				<ul style="padding-right: 10px;" class="nav navbar-nav navbar-right">
+					<li>
+						<div class="dropdown" style="padding: 8px 5px 0px 0px" id="dropdown">
+							<button class="btn btn-primary dropdown" type="button" id="dropdownMenu1"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Algorithm
+								Explain</button>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+								<li><a href="./med-explain.html" target="_blank">Minimum Edit Distance</a></li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<div class="dropdown" style="padding: 8px 5px 0px 0px" id="dropdown">
+							<button class="btn btn-primary dropdown" type="button" id="dropdownMenu1"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">About</button>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+								<li class="dropdown-header">Programmer</li>
+								<li><a href="https://github.com/nhutnamhcmus" target="_blank">Le Nhut Nam</a></li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div id="loader"></div>
+	<!-- Page Container -->
+	<div class="container animate-bottom" style="display: none; padding-top: 70px;" id="container">
+		<div class="row" id="rowmanual">
+			<div class="col-md-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title"><span class="glyphicon glyphicon-pencil aria-hidden="
+								true"></span>&nbsp;&nbsp;Input Form</h3>
+					</div>
+					<div class="panel-body">
+						<h3>Input String(s)</h3>
+						<div class="form-group">
+							<label>First string</label>
+							<input type="text" id="firstString" class="form-control" placeholder="First String"
+								name="first" required="">
+						</div>
+						<div class="form-group">
+							<label>Second string</label>
+							<input type="text" id="secondString" class="form-control" placeholder="Second String"
+								name="second" required="">
+						</div> <br>
+						<input type="submit" class="btn btn-primary btn-lg btn-block" data-loading-text="LOADING..."
+							id="submitm" value="Submit">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="hasil" class="row" style="display: none;">
+			<div class="col-md-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title"><span class="glyphicon glyphicon-check aria-hidden="
+								true"></span>&nbsp;&nbsp;Calculate Result</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel panel-info">
+									<div class="panel-heading">
+										<h3 class="panel-title">Matrix Edit Distance</h3>
+									</div>
+									<div class="panel-body">
+										<table class="table table-condensed text-center">
+											<tbody id="matrixRes">
+											</tbody>
+										</table>
+										Note : Insertion + 1, Deletion + 1, Substitution + 1
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel panel-info">
+									<div class="panel-heading">
+										<h3 class="panel-title">Backtrace MED</h3>
+									</div>
+									<div class="panel-body">
+										<table class="table table-condensed text-center">
+											<tbody id="matrixBacktraces"></tbody>
+										</table>
+										Note : Keep in mind that backtrack algorithm, has the result of a decision tree.
+										Thus, there are several choices of operations for each edit (not always the same
+										as the example).
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel panel-info">
+									<div class="panel-heading">
+										<h3 class="panel-title">Alignment Minimum Edit Distance</h3>
+									</div>
+									<div class="panel-body">
+										<table class="table table-condensed text-center">
+											<tbody id="resultMED">
+
+											</tbody>
+										</table>
+										Note :
+										<button type="button" class="btn btn-info " data-toggle="tooltip"
+											data-placement="bottom" title="Insertion"></button>
+										<button type="button" class="btn btn-danger" data-toggle="tooltip"
+											data-placement="bottom" title="Deletion"></button>
+										<button type="button" class="btn btn-warning" data-toggle="tooltip"
+											data-placement="bottom" title="Substitution"></button>
+										<button type="button" class="btn btn-success" data-toggle="tooltip"
+											data-placement="bottom" title="Equal"></button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+
+		Array.prototype.remove = function (from, to) {
+			var rest = this.slice((to || from) + 1 || this.length);
+			this.length = from < 0 ? this.length + from : from;
+			return this.push.apply(this, rest);
+		};
+
+		$('#submitm').on('click', function () {
+
+			/*Reset all table*/
+			$('#matrixRes > tr').each(function () { $(this).remove() });
+			$('#matrixBacktraces > tr').each(function () { $(this).remove() });
+			$('#resultMED > tr').each(function () { $(this).remove() });
+
+			/* Do all the task, when user clicked Submit*/
+			var $this = $(this);
+			$this.button('loading');
+			setTimeout(function () {
+				$this.button('reset');
+
+				/* Loop dynamically Matrices MED */
+				matRes = MED($("#firstString").val(), $("#secondString").val());
+				console.log(matRes);
+
+				for (i = 0; i < $("#firstString").val().length + 2; i++) {
+
+					for (j = 0; j < $("#secondString").val().length + 2; j++) {
+						var tr = $("#matrixRes tr:last");
+
+						if (!tr.length || tr.find("td").length >= $("#secondString").val().length + 2) {
+							$("#matrixRes").append("<tr>");
+						}
+
+						if (i == 0) {
+							if (j == 0) {
+								$('#matrixRes tr:last').append("<td></td>");
+							} else if (j == 1) {
+								$('#matrixRes tr:last').append("<td>#</td>");
+							} else {
+								$('#matrixRes tr:last').append("<td>" + $('#secondString').val().charAt(j - 2) + "</td>");
+							}
+						} else if (i == 1) {
+							if (j == 0) {
+								$('#matrixRes tr:last').append("<td>#</td>");
+							} else {
+								//$('#matrixRes tr:last').append("<td>" + matRes[i - 1][j - 1] + "</td>");
+								$('#matrixRes tr:last').append("<td>" + " " + "</td>");
+							}
+						} else {
+							if (j == 0) {
+								$('#matrixRes tr:last').append("<td>" + $('#firstString').val().charAt(i - 2) + "</td>");
+							} else {
+								//$('#matrixRes tr:last').append("<td>" + matRes[i - 1][j - 1] + "</td>");
+								$('#matrixRes tr:last').append("<td>" + " " + "</td>");
+							}
+						}
+					}
+				}
+
+				/*
+				for (let x = 2; x < tmp.rows.length; x++) {
+					let objCells = tmp.rows.item(x).cells;
+					for (let y = 2; y < objCells.length; y++) {
+						setInterval(function (){
+							tmp.rows[x].cells[y].innerHTML = 0;
+						}, 1000*y)
+					}
+				}*/
+
+				function delay(delayInms) {
+					return new Promise(resolve => {
+						setTimeout(() => {
+							resolve(2);
+						}, delayInms);
+					});
+				}
+
+				async function createTableValue() {
+					let tmp = document.getElementById("matrixRes");
+					for (let x = 2; x < tmp.rows.length; x++) {
+						let objCells = tmp.rows.item(x).cells;
+						for (let y = 2; y < objCells.length; y++) {
+							tmp.rows[x].cells[y].innerHTML = matRes[x-1][y-1];
+							let delayres = await delay(1000);
+						}
+					}
+					$('#matrixRes tr:last td:last').addClass("bg-success");
+				}
+
+				createTableValue();
+
+
+				$("#matrixRes tr:first").addClass("bg-danger");
+				$('#matrixRes > tr').each(function () { $(this).find("td:first").addClass("bg-danger") });
+
+				/* Backtraces MED */
+				arrSeq = backTrace(matRes);
+				for (i = 0; i < $("#firstString").val().length + 2; i++) {
+					for (j = 0; j < $("#secondString").val().length + 2; j++) {
+						var tr = $("#matrixBacktraces tr:last");
+
+						if (!tr.length || tr.find("td").length >= $("#secondString").val().length + 2)
+							$("#matrixBacktraces").append("<tr>");
+
+						if (i == 0) {
+							if (j == 0) {
+								$('#matrixBacktraces tr:last').append("<td></td>");
+							} else if (j == 1) {
+								$('#matrixBacktraces tr:last').append("<td>#</td>");
+							} else {
+								$('#matrixBacktraces tr:last').append("<td>" + $('#secondString').val().charAt(j - 2) + "</td>");
+							}
+						} else if (i == 1) {
+							if (j == 0) {
+								$('#matrixBacktraces tr:last').append("<td>#</td>");
+							} else {
+								$('#matrixBacktraces tr:last').append("<td>" + matRes[i - 1][j - 1] + "</td>");
+							}
+						} else {
+							if (j == 0) {
+								$('#matrixBacktraces tr:last').append("<td>" + $('#firstString').val().charAt(i - 2) + "</td>");
+							} else {
+								$('#matrixBacktraces tr:last').append("<td>" + matRes[i - 1][j - 1] + "</td>");
+							}
+						}
+					}
+				}
+				$("#matrixBacktraces tr:first").addClass("bg-danger");
+				$('#matrixBacktraces tr').each(function () { $(this).find("td:first").addClass("bg-danger") });
+				$('#matrixBacktraces tr:last td:last').addClass("bg-success");
+
+				let table = $("#matrixBacktraces")[0];
+				let count = 0;
+				let cI = 0;
+				let cD = 0;
+				let le1 = $("#secondString").val().length;
+				let le2 = $("#firstString").val().length;
+				for (i = 0; i < arrSeq.length; i++) {
+					if (arrSeq[i].operation != 0) {
+						if (arrSeq[i].operation == 2) {
+							le1++;
+						} else if (arrSeq[i].operation == 1) {
+							le2++;
+						}
+						count++;
+					}
+					var cell = table.rows[arrSeq[i].i + 1].cells[arrSeq[i].j + 1]; // This is a DOM "TD" element
+					var $cell = $(cell);
+					$cell.addClass('bg-success');
+				}
+
+				/* Loop dynamically Alignment MED */
+				for (i = 0; i < 3; i++) {
+					for (j = count - 2; j >= 0; j--) {
+						var tr = $("#resultMED tr:last");
+
+						if (!tr.length || tr.find("td").length >= le1)
+							$("#resultMED").append("<tr>");
+						if (i == 0) {
+							if (arrSeq[j].operation == 2) {
+								$('#resultMED tr:last').append("<td>*</td>");
+							} else {
+								$('#resultMED tr:last').append("<td>" + $("#secondString").val().charAt(arrSeq[j].j - 1) + "</td>");
+							}
+						} else if (i == 1) {
+							if (arrSeq[j].operation == 1) {
+								$('#resultMED tr:last').append("<td class='bg-info'>|</td>");
+							} else if (arrSeq[j].operation == 2) {
+								$('#resultMED tr:last').append("<td class='bg-danger'>|</td>");
+							} else if (arrSeq[j].operation == 3) {
+								$('#resultMED tr:last').append("<td class='bg-warning'>|</td>");
+							} else if (arrSeq[j].operation == 4) {
+								$('#resultMED tr:last').append("<td class='bg-success'>|</td>");
+							}
+						} else if (i == 2) {
+							if (arrSeq[j].operation == 1) {
+								$('#resultMED tr:last').append("<td>*</td>");
+							} else {
+								$('#resultMED tr:last').append("<td>" + $("#firstString").val().charAt(arrSeq[j].i - 1) + "</td>");
+							}
+
+						}
+					}
+				}
+
+				$("#hasil").show("slow");
+
+			}, 1000);
+		});
+
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip()
+		})
+		var timer;
+		function load() {
+			timer = setTimeout(showContainer, 1000);
+		}
+
+		function showContainer() {
+			document.getElementById("loader").style.display = "none";
+			document.getElementById("container").style.display = "block";
+		}
+
+		$('#reset').on('click', function () {
+			$("#inputres").modal();
+			$("#hasil").hide("slow");
+		});
+
+		$('.dropdown').on('show.bs.dropdown', function () {
+			$(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+		});
+		$('.dropdown').on('hide.bs.dropdown', function () {
+			$(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+		});
+	</script>
+</body>
+
+</html>
