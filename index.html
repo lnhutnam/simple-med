@@ -153,14 +153,13 @@
 			$('#matrixBacktraces > tr').each(function () { $(this).remove() });
 			$('#resultMED > tr').each(function () { $(this).remove() });
 
-			/* Do all the task, when user clicked Submit*/
 			var $this = $(this);
+
 			$this.button('loading');
+
 			setTimeout(function () {
 				$this.button('reset');
-
-				/* Loop dynamically Matrices MED */
-				matRes = MED($("#firstString").val(), $("#secondString").val());
+				matRes = minimun_edit_distance($("#firstString").val(), $("#secondString").val());
 				console.log(matRes);
 
 				for (i = 0; i < $("#firstString").val().length + 2; i++) {
@@ -184,14 +183,12 @@
 							if (j == 0) {
 								$('#matrixRes tr:last').append("<td>#</td>");
 							} else {
-								//$('#matrixRes tr:last').append("<td>" + matRes[i - 1][j - 1] + "</td>");
 								$('#matrixRes tr:last').append("<td>" + " " + "</td>");
 							}
 						} else {
 							if (j == 0) {
 								$('#matrixRes tr:last').append("<td>" + $('#firstString').val().charAt(i - 2) + "</td>");
 							} else {
-								//$('#matrixRes tr:last').append("<td>" + matRes[i - 1][j - 1] + "</td>");
 								$('#matrixRes tr:last').append("<td>" + " " + "</td>");
 							}
 						}
@@ -251,7 +248,7 @@
 				$('#matrixRes > tr').each(function () { $(this).find("td:first").addClass("bg-danger") });
 
 				/* Backtraces MED */
-				arrSeq = backTrace(matRes);
+				arrSeq = back_trace_minimun_edit_distance(matRes);
 				for (i = 0; i < $("#firstString").val().length + 2; i++) {
 					for (j = 0; j < $("#secondString").val().length + 2; j++) {
 						var tr = $("#matrixBacktraces tr:last");
@@ -271,14 +268,12 @@
 							if (j == 0) {
 								$('#matrixBacktraces tr:last').append("<td>#</td>");
 							} else {
-								// $('#matrixBacktraces tr:last').append("<td>" + matRes[i - 1][j - 1] + "</td>");
 								$('#matrixBacktraces tr:last').append("<td>" + " " + "</td>");
 							}
 						} else {
 							if (j == 0) {
 								$('#matrixBacktraces tr:last').append("<td>" + $('#firstString').val().charAt(i - 2) + "</td>");
 							} else {
-								// $('#matrixBacktraces tr:last').append("<td>" + matRes[i - 1][j - 1] + "</td>");
 								$('#matrixBacktraces tr:last').append("<td>" + " " + "</td>");
 							}
 						}
@@ -305,7 +300,7 @@
 							}
 							count++;
 						}
-						let cell = table.rows[arrSeq[i].i + 1].cells[arrSeq[i].j + 1]; // This is a DOM "TD" element
+						let cell = table.rows[arrSeq[i].i + 1].cells[arrSeq[i].j + 1];
 						let $cell = $(cell);
 						let delayres = await delay(1000);
 						$cell.addClass('bg-success');
