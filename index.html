@@ -114,7 +114,6 @@
 											<tbody id="matrixRes">
 											</tbody>
 										</table>
-										Note : Insertion + 1, Deletion + 1, Substitution + 1
 									</div>
 								</div>
 							</div>
@@ -129,34 +128,6 @@
 										<table class="table table-condensed text-center">
 											<tbody id="matrixBacktraces"></tbody>
 										</table>
-										Note : Keep in mind that backtrack algorithm, has the result of a decision tree.
-										Thus, there are several choices of operations for each edit (not always the same
-										as the example).
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="panel panel-info">
-									<div class="panel-heading">
-										<h3 class="panel-title">Alignment Minimum Edit Distance</h3>
-									</div>
-									<div class="panel-body">
-										<table class="table table-condensed text-center">
-											<tbody id="resultMED">
-
-											</tbody>
-										</table>
-										Note :
-										<button type="button" class="btn btn-info " data-toggle="tooltip"
-											data-placement="bottom" title="Insertion"></button>
-										<button type="button" class="btn btn-danger" data-toggle="tooltip"
-											data-placement="bottom" title="Deletion"></button>
-										<button type="button" class="btn btn-warning" data-toggle="tooltip"
-											data-placement="bottom" title="Substitution"></button>
-										<button type="button" class="btn btn-success" data-toggle="tooltip"
-											data-placement="bottom" title="Equal"></button>
 									</div>
 								</div>
 							</div>
@@ -227,26 +198,43 @@
 					}
 				}
 
-				/*
-				for (let x = 2; x < tmp.rows.length; x++) {
-					let objCells = tmp.rows.item(x).cells;
-					for (let y = 2; y < objCells.length; y++) {
-						setInterval(function (){
-							tmp.rows[x].cells[y].innerHTML = 0;
-						}, 1000*y)
+				function clearResultTable(){
+					let table = document.getElementById("matrixRes");
+					for (let x = 1; x < 2; x++) {
+						for (let y = 1; y < table.rows.length; y++) {
+							table.rows[x].cells[y].innerHTML = y-1;
+						}
 					}
-				}*/
 
-				function delay(delayInms) {
-					return new Promise(resolve => {
-						setTimeout(() => {
-							resolve(2);
-						}, delayInms);
-					});
+					for (let x = 1; x < 2; x++){
+						for (let y = 1; y < table.rows.item(x).cells.length; y++){
+							table.rows[y].cells[x].innerHTML = y-1;
+						}
+					}
+
+					for (let x = 2; x < table.rows.length; x++) {
+						let objCells = table.rows.item(x).cells;
+						for (let y = 2; y < objCells.length; y++) {
+							table.rows[x].cells[y].innerHTML = ' '
+						}
+					}
 				}
 
-				async function createTableValue() {
+				async function presentation_minimum_edit_edistance() {
+					let firtDelayres = await delay(1000);
 					let tmp = document.getElementById("matrixRes");
+					for (let x = 1; x < 2; x++) {
+						for (let y = 1; y < tmp.rows.length; y++) {
+							tmp.rows[x].cells[y].innerHTML = y-1;
+						}
+					}
+
+					for (let x = 1; x < 2; x++){
+						for (let y = 1; y < tmp.rows.item(x).cells.length; y++){
+							tmp.rows[y].cells[x].innerHTML = y-1;
+						}
+					}
+
 					for (let x = 2; x < tmp.rows.length; x++) {
 						let objCells = tmp.rows.item(x).cells;
 						for (let y = 2; y < objCells.length; y++) {
@@ -257,8 +245,7 @@
 					$('#matrixRes tr:last td:last').addClass("bg-success");
 				}
 
-				createTableValue();
-
+				presentation_minimum_edit_edistance();
 
 				$("#matrixRes tr:first").addClass("bg-danger");
 				$('#matrixRes > tr').each(function () { $(this).find("td:first").addClass("bg-danger") });
@@ -284,74 +271,76 @@
 							if (j == 0) {
 								$('#matrixBacktraces tr:last').append("<td>#</td>");
 							} else {
-								$('#matrixBacktraces tr:last').append("<td>" + matRes[i - 1][j - 1] + "</td>");
+								// $('#matrixBacktraces tr:last').append("<td>" + matRes[i - 1][j - 1] + "</td>");
+								$('#matrixBacktraces tr:last').append("<td>" + " " + "</td>");
 							}
 						} else {
 							if (j == 0) {
 								$('#matrixBacktraces tr:last').append("<td>" + $('#firstString').val().charAt(i - 2) + "</td>");
 							} else {
-								$('#matrixBacktraces tr:last').append("<td>" + matRes[i - 1][j - 1] + "</td>");
+								// $('#matrixBacktraces tr:last').append("<td>" + matRes[i - 1][j - 1] + "</td>");
+								$('#matrixBacktraces tr:last').append("<td>" + " " + "</td>");
 							}
 						}
 					}
 				}
+
 				$("#matrixBacktraces tr:first").addClass("bg-danger");
 				$('#matrixBacktraces tr').each(function () { $(this).find("td:first").addClass("bg-danger") });
-				$('#matrixBacktraces tr:last td:last').addClass("bg-success");
 
-				let table = $("#matrixBacktraces")[0];
-				let count = 0;
-				let cI = 0;
-				let cD = 0;
-				let le1 = $("#secondString").val().length;
-				let le2 = $("#firstString").val().length;
-				for (i = 0; i < arrSeq.length; i++) {
-					if (arrSeq[i].operation != 0) {
-						if (arrSeq[i].operation == 2) {
-							le1++;
-						} else if (arrSeq[i].operation == 1) {
-							le2++;
+				async function tracer (){
+					let firtDelayres = await delay(1000);
+					let table = $("#matrixBacktraces")[0];
+					let count = 0;
+					let cI = 0;
+					let cD = 0;
+					let le1 = $("#secondString").val().length;
+					let le2 = $("#firstString").val().length;
+					for (let i = 0; i < arrSeq.length; i++) {
+						if (arrSeq[i].operation != 0) {
+							if (arrSeq[i].operation == 2) {
+								le1++;
+							} else if (arrSeq[i].operation == 1) {
+								le2++;
+							}
+							count++;
 						}
-						count++;
+						let cell = table.rows[arrSeq[i].i + 1].cells[arrSeq[i].j + 1]; // This is a DOM "TD" element
+						let $cell = $(cell);
+						let delayres = await delay(1000);
+						$cell.addClass('bg-success');
 					}
-					var cell = table.rows[arrSeq[i].i + 1].cells[arrSeq[i].j + 1]; // This is a DOM "TD" element
-					var $cell = $(cell);
-					$cell.addClass('bg-success');
+					return count;
 				}
 
-				/* Loop dynamically Alignment MED */
-				for (i = 0; i < 3; i++) {
-					for (j = count - 2; j >= 0; j--) {
-						var tr = $("#resultMED tr:last");
-
-						if (!tr.length || tr.find("td").length >= le1)
-							$("#resultMED").append("<tr>");
-						if (i == 0) {
-							if (arrSeq[j].operation == 2) {
-								$('#resultMED tr:last').append("<td>*</td>");
-							} else {
-								$('#resultMED tr:last').append("<td>" + $("#secondString").val().charAt(arrSeq[j].j - 1) + "</td>");
-							}
-						} else if (i == 1) {
-							if (arrSeq[j].operation == 1) {
-								$('#resultMED tr:last').append("<td class='bg-info'>|</td>");
-							} else if (arrSeq[j].operation == 2) {
-								$('#resultMED tr:last').append("<td class='bg-danger'>|</td>");
-							} else if (arrSeq[j].operation == 3) {
-								$('#resultMED tr:last').append("<td class='bg-warning'>|</td>");
-							} else if (arrSeq[j].operation == 4) {
-								$('#resultMED tr:last').append("<td class='bg-success'>|</td>");
-							}
-						} else if (i == 2) {
-							if (arrSeq[j].operation == 1) {
-								$('#resultMED tr:last').append("<td>*</td>");
-							} else {
-								$('#resultMED tr:last').append("<td>" + $("#firstString").val().charAt(arrSeq[j].i - 1) + "</td>");
-							}
-
+				async function presentation_backtrace(){
+					let firtDelayres = await delay(1000);
+					let tmp = document.getElementById("matrixBacktraces");
+					for (let x = 1; x < 2; x++) {
+						for (let y = 1; y < tmp.rows.length; y++) {
+							tmp.rows[x].cells[y].innerHTML = y-1;
 						}
 					}
+
+					for (let x = 1; x < 2; x++){
+						for (let y = 1; y < tmp.rows.item(x).cells.length; y++){
+							tmp.rows[y].cells[x].innerHTML = y-1;
+						}
+					}
+
+					for (let x = 2; x < tmp.rows.length; x++) {
+						let objCells = tmp.rows.item(x).cells;
+						for (let y = 2; y < objCells.length; y++) {
+							tmp.rows[x].cells[y].innerHTML = matRes[x-1][y-1];
+							let delayres = await delay(1000);
+						}
+					}
+					$('#matrixRes tr:last td:last').addClass("bg-success");
+					let count = tracer();
+					return count;
 				}
+
+				let count = presentation_backtrace();
 
 				$("#hasil").show("slow");
 

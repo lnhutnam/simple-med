@@ -1,4 +1,10 @@
-
+function delay(delayInms) {
+	return new Promise(resolve => {
+		setTimeout(() => {
+			resolve(2);
+		}, delayInms);
+	});
+}
 /**
  * Minimum Edit Distance Algorithm, to check similarty between 2 string.
  * The output is MED value inside of matrix
@@ -12,13 +18,13 @@
  * @return {Array} Matrix Minimum Edit distance
  */
 function MED(string1, string2) {
-	let l1 = string1.length + 1;
-	let l2 = string2.length + 1;
+	let string_length_1 = string1.length + 1;
+	let string_length_2 = string2.length + 1;
 
 	/*Create var matrix*/
-	var matrix = new Array(l1);
-	for (let i = 0; i < l1; i++) {
-		matrix[i] = new Array(l2);
+	var matrix = new Array(string_length_1);
+	for (let i = 0; i < string_length_1; i++) {
+		matrix[i] = new Array(string_length_2);
 	}
 
 	/*First, init matrix with default value*/
@@ -37,13 +43,13 @@ function MED(string1, string2) {
 	 */
 	/*Filling first row*/
 	for (let i = 0; i < 1; i++) {
-		for (let j = 0; j < l2; j++) {
+		for (let j = 0; j < string_length_2; j++) {
 			matrix[i][j] = j;
 		}
 	}
 	/*Filling first column*/
 	for (let i = 0; i < 1; i++) {
-		for (let j = 0; j < l1; j++) {
+		for (let j = 0; j < string_length_1; j++) {
 			matrix[j][i] = j;
 		}
 	}
@@ -58,8 +64,8 @@ function MED(string1, string2) {
 	 */
 
 	/* Implement MED to Matrix */
-	for (let i = 1; i < l1; i++) {
-		for (let j = 1; j < l2; j++) {
+	for (let i = 1; i < string_length_1; i++) {
+		for (let j = 1; j < string_length_2; j++) {
 			// check whether character
 			if (string1.charAt(i - 1) == string2.charAt(j - 1)) {
 				matrix[i][j] = matrix[i - 1][j - 1];
@@ -80,9 +86,10 @@ function MED(string1, string2) {
  */
 function backTrace(matrix) {
 
-	var seqResult = [];
-	var l1 = matrix.length;
-	var l2 = matrix[0].length;
+	let seqResult = [];
+	let rows = matrix.length;
+	let cols = matrix[0].length;
+	let i, j;
 
 	/* Fill array with 0 */
 	for (i = 0; i < matrix.length + matrix[0].length; i++) {
@@ -93,8 +100,8 @@ function backTrace(matrix) {
 		Backgrack Algorithm, Find minimun between upper left cell value, above cell value, left cell value
 	 */
 	seq = 0;
-	i = l1 - 1;
-	j = l2 - 1;
+	i = rows - 1;
+	j = cols - 1;
 	do {
 		if (i - 1 >= 0 && j - 1 >= 0) {
 			var smallest = Math.min(matrix[i - 1][j - 1], matrix[i - 1][j], matrix[i][j - 1]);
