@@ -171,47 +171,26 @@
 					}
 				}
 
-				function clearResultTable(){
-					let table = document.getElementById("matrixRes");
-					for (let x = 1; x < 2; x++) {
-						for (let y = 1; y < table.rows.length; y++) {
-							table.rows[x].cells[y].innerHTML = y-1;
-						}
-					}
-
-					for (let x = 1; x < 2; x++){
-						for (let y = 1; y < table.rows.item(x).cells.length; y++){
-							table.rows[y].cells[x].innerHTML = y-1;
-						}
-					}
-
-					for (let x = 2; x < table.rows.length; x++) {
-						let objCells = table.rows.item(x).cells;
-						for (let y = 2; y < objCells.length; y++) {
-							table.rows[x].cells[y].innerHTML = ' '
-						}
-					}
-				}
-
 				async function presentation_minimum_edit_edistance() {
 					let firtDelayres = await delay(1000);
 					let tmp = document.getElementById("matrixRes");
 					for (let x = 1; x < 2; x++) {
-						for (let y = 1; y < tmp.rows.length; y++) {
-							tmp.rows[x].cells[y].innerHTML = y-1;
+						for (let y = 1; y < $("#secondString").val().length + 2; y++) {
+							tmp.rows[x].cells[y].innerHTML = y - 1;
 						}
 					}
 
-					for (let x = 1; x < 2; x++){
-						for (let y = 1; y < tmp.rows.item(x).cells.length; y++){
-							tmp.rows[y].cells[x].innerHTML = y-1;
+					for (let x = 1; x < 2; x++) {
+						for (let y = 1; y < $('#firstString').val().length + 2; y++) {
+							tmp.rows[y].cells[x].innerHTML = y - 1;
+
 						}
 					}
 
 					for (let x = 2; x < tmp.rows.length; x++) {
 						let objCells = tmp.rows.item(x).cells;
 						for (let y = 2; y < objCells.length; y++) {
-							tmp.rows[x].cells[y].innerHTML = matRes[x-1][y-1];
+							tmp.rows[x].cells[y].innerHTML = matRes[x - 1][y - 1];
 							let delayres = await delay(1000);
 						}
 					}
@@ -259,7 +238,7 @@
 				$("#matrixBacktraces tr:first").addClass("bg-danger");
 				$('#matrixBacktraces tr').each(function () { $(this).find("td:first").addClass("bg-danger") });
 
-				async function tracer (){
+				async function tracer() {
 					let firtDelayres = await delay(1000);
 					let table = $("#matrixBacktraces")[0];
 					let count = 0;
@@ -284,25 +263,25 @@
 					return count;
 				}
 
-				async function presentation_backtrace(){
+				async function presentation_backtrace() {
 					let firtDelayres = await delay(1000);
 					let tmp = document.getElementById("matrixBacktraces");
 					for (let x = 1; x < 2; x++) {
-						for (let y = 1; y < tmp.rows.length; y++) {
-							tmp.rows[x].cells[y].innerHTML = y-1;
+						for (let y = 1; y < $("#secondString").val().length + 2; y++) {
+							tmp.rows[x].cells[y].innerHTML = y - 1;
 						}
 					}
 
-					for (let x = 1; x < 2; x++){
-						for (let y = 1; y < tmp.rows.item(x).cells.length; y++){
-							tmp.rows[y].cells[x].innerHTML = y-1;
+					for (let x = 1; x < 2; x++) {
+						for (let y = 1; y < $('#firstString').val().length + 2; y++) {
+							tmp.rows[y].cells[x].innerHTML = y - 1;
 						}
 					}
 
 					for (let x = 2; x < tmp.rows.length; x++) {
 						let objCells = tmp.rows.item(x).cells;
 						for (let y = 2; y < objCells.length; y++) {
-							tmp.rows[x].cells[y].innerHTML = matRes[x-1][y-1];
+							tmp.rows[x].cells[y].innerHTML = matRes[x - 1][y - 1];
 							let delayres = await delay(1000);
 						}
 					}
