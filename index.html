@@ -108,6 +108,29 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel panel-info">
+									<div class="panel-heading">
+										<h3 class="panel-title">Alignment Minimum Edit Distance</h3>
+									</div>
+									<div class="panel-body">
+										<table class="table table-condensed text-center">
+											<tbody id="resultMED"></tbody>
+										</table>
+										Note :
+										<button type="button" class="btn btn-info " data-toggle="tooltip"
+											data-placement="bottom" title="Insertion"></button>
+										<button type="button" class="btn btn-danger" data-toggle="tooltip"
+											data-placement="bottom" title="Deletion"></button>
+										<button type="button" class="btn btn-warning" data-toggle="tooltip"
+											data-placement="bottom" title="Substitution"></button>
+										<button type="button" class="btn btn-success" data-toggle="tooltip"
+											data-placement="bottom" title="Equal"></button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -136,8 +159,7 @@
 			setTimeout(function () {
 				$this.button('reset');
 				matRes = minimun_edit_distance($("#firstString").val(), $("#secondString").val());
-				console.log(matRes);
-
+				
 				for (i = 0; i < $("#firstString").val().length + 2; i++) {
 
 					for (j = 0; j < $("#secondString").val().length + 2; j++) {
@@ -203,7 +225,7 @@
 				$('#matrixRes > tr').each(function () { $(this).find("td:first").addClass("bg-danger") });
 
 				/* Backtraces MED */
-				arrSeq = back_trace_minimun_edit_distance(matRes);
+				let arrSeq = back_trace_minimun_edit_distance(matRes);
 				for (i = 0; i < $("#firstString").val().length + 2; i++) {
 					for (j = 0; j < $("#secondString").val().length + 2; j++) {
 						var tr = $("#matrixBacktraces tr:last");
@@ -238,14 +260,14 @@
 				$("#matrixBacktraces tr:first").addClass("bg-danger");
 				$('#matrixBacktraces tr').each(function () { $(this).find("td:first").addClass("bg-danger") });
 
+				let table = $("#matrixBacktraces")[0];
+				let cI = 0;
+				let cD = 0;
+				let le1 = $("#secondString").val().length;
+				let le2 = $("#firstString").val().length;
+
 				async function tracer() {
 					let firtDelayres = await delay(1000);
-					let table = $("#matrixBacktraces")[0];
-					let count = 0;
-					let cI = 0;
-					let cD = 0;
-					let le1 = $("#secondString").val().length;
-					let le2 = $("#firstString").val().length;
 					for (let i = 0; i < arrSeq.length; i++) {
 						if (arrSeq[i].operation != 0) {
 							if (arrSeq[i].operation == 2) {
@@ -260,7 +282,6 @@
 						let delayres = await delay(1000);
 						$cell.addClass('bg-success');
 					}
-					return count;
 				}
 
 				async function presentation_backtrace() {
@@ -286,11 +307,60 @@
 						}
 					}
 					$('#matrixRes tr:last td:last').addClass("bg-success");
-					let count = tracer();
+					tracer();
+				}
+
+				presentation_backtrace();
+
+				let counting = function () {
+					let count = 0;
+					for (let i = 0; i < arrSeq.length; i++) {
+						if (arrSeq[i].operation != 0) {
+							if (arrSeq[i].operation == 2) {
+								le1++;
+							} else if (arrSeq[i].operation == 1) {
+								le2++;
+							}
+							count++;
+						}
+					}
 					return count;
 				}
 
-				let count = presentation_backtrace();
+				let count = counting();
+
+				for (let i = 0; i < 3; i++) {
+					for (let j = count - 2; j >= 0; j--) {
+						let tr = $("#resultMED tr:last");
+
+						if (!tr.length || tr.find("td").length >= le1)
+							$("#resultMED").append("<tr>");
+						if (i == 0) {
+							if (arrSeq[j].operation == 2) {
+								$('#resultMED tr:last').append("<td>*</td>");
+							} else {
+								$('#resultMED tr:last').append("<td>" + $("#secondString").val().charAt(arrSeq[j].j - 1) + "</td>");
+							}
+						} else if (i == 1) {
+							if (arrSeq[j].operation == 1) {
+								$('#resultMED tr:last').append("<td class='bg-info'>|</td>");
+							} else if (arrSeq[j].operation == 2) {
+								$('#resultMED tr:last').append("<td class='bg-danger'>|</td>");
+							} else if (arrSeq[j].operation == 3) {
+								$('#resultMED tr:last').append("<td class='bg-warning'>|</td>");
+							} else if (arrSeq[j].operation == 4) {
+								$('#resultMED tr:last').append("<td class='bg-success'>|</td>");
+							}
+						} else if (i == 2) {
+							if (arrSeq[j].operation == 1) {
+								$('#resultMED tr:last').append("<td>*</td>");
+							} else {
+								$('#resultMED tr:last').append("<td>" + $("#firstString").val().charAt(arrSeq[j].i - 1) + "</td>");
+							}
+
+						}
+					}
+				}
 
 				$("#hasil").show("slow");
 
